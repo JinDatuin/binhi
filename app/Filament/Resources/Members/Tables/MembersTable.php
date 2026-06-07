@@ -24,29 +24,24 @@ class MembersTable
                     ->label('Photo')
                     ->circular()
                     ->defaultImageUrl(fn () => 'https://ui-avatars.com/api/?name=N%2FA&background=gray&color=fff'),
-                TextColumn::make('firstname')
-                    ->label('First Name')
-                    ->searchable()
-                    ->sortable(),
-                TextColumn::make('lastname')
-                    ->label('Last Name')
-                    ->searchable()
-                    ->sortable(),
                 TextColumn::make('student_number')
                     ->label('Student #')
                     ->searchable()
                     ->sortable(),
+                TextColumn::make('name')
+                    ->label('Name')
+                    ->state(fn ($record) => trim(
+                        "{$record->lastname}, {$record->firstname} {$record->middle_initial}"
+                    ))
+                    ->searchable(['firstname', 'lastname'])
+                    ->sortable(),
                 TextColumn::make('course')
                     ->searchable()
-                    ->sortable()
-                    ->toggleable(),
-                TextColumn::make('year')
-                    ->label('Year')
                     ->sortable(),
-                TextColumn::make('section')
-                    ->label('Section')
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('yearAndSection')
+                    ->label('Year & Section')
+                    ->state(fn ($record) => "{$record->year->getLabel()} - {$record->section}")
+                    ->sortable(),
                 TextColumn::make('organizational_position')
                     ->badge()
                     ->label('Position')
