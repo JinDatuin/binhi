@@ -24,11 +24,9 @@ class MemberInfolist
                         TextEntry::make('full_name')
                             ->label('Name')
                             ->state(fn ($record) => trim(
-                                "{$record->firstname} {$record->middle_initial} {$record->lastname}"
+                                "{$record->lastname}, {$record->firstname} {$record->middle_initial}"
                             )),
-
                         TextEntry::make('sex'),
-
                         TextEntry::make('birthday')
                             ->date(),
                     ])
@@ -37,13 +35,9 @@ class MemberInfolist
                 Section::make('Academic Information')
                     ->schema([
                         TextEntry::make('student_number'),
-
                         TextEntry::make('course'),
-
                         TextEntry::make('year'),
-
                         TextEntry::make('section'),
-
                         TextEntry::make('organizational_position')
                             ->badge(),
                     ])
@@ -52,15 +46,11 @@ class MemberInfolist
                 Section::make('Contact Information')
                     ->schema([
                         TextEntry::make('email_address'),
-
                         TextEntry::make('contact_number'),
-
                         TextEntry::make('address_brgy')
                             ->label('Barangay'),
-
                         TextEntry::make('address_municipal')
                             ->label('Municipal'),
-
                         TextEntry::make('address_province')
                             ->label('Province'),
                     ])
@@ -70,7 +60,6 @@ class MemberInfolist
                     ->schema([
                         TextEntry::make('guardian_names')
                             ->label("Parent's / Guardian's Names"),
-
                         TextEntry::make('guardian_contact_numbers')
                             ->label('Guardian Contact Numbers'),
                     ])

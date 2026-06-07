@@ -10,6 +10,7 @@ enum Year: string implements HasLabel
     case SECONDYEAR = '2';
     case THIRDYEAR = '3';
     case FOURTHYEAR = '4';
+    case ALUMNI = '0';
 
     public function getLabel(): string
     {
@@ -18,6 +19,7 @@ enum Year: string implements HasLabel
             self::SECONDYEAR => '2nd Year',
             self::THIRDYEAR => '3rd Year',
             self::FOURTHYEAR => '4th Year',
+            self::ALUMNI => 'Alumni',
         };
     }
 }

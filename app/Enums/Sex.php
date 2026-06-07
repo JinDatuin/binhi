@@ -9,7 +9,7 @@ enum Sex: string implements HasLabel
     case MALE = 'm';
     case FEMALE = 'f';
 
-        public function getLabel(): string
+    public function getLabel(): string
     {
         return match ($this) {
             self::MALE => 'Male',
