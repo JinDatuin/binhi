@@ -4,7 +4,7 @@ namespace App\Models;
 
 use App\Enums\OrganizationalPosition;
 use App\Enums\Sex;
-use App\Enums\YearSection;
+use App\Enums\Year;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -16,13 +16,13 @@ class Member extends Model
     protected $table = 'members';
 
     protected $fillable = [
-        'user_id',
         'firstname',
         'lastname',
         'middle_initial',
         'student_number',
         'course',
-        'year_section',
+        'year',
+        'section',
         'address_brgy',
         'address_municipal',
         'address_province',
@@ -41,7 +41,7 @@ class Member extends Model
         return [
             'birthday' => 'date',
             'sex' => Sex::class,
-            'year_section' => YearSection::class,
+            'year' => Year::class,
             'organizational_position' => OrganizationalPosition::class,
         ];
     }

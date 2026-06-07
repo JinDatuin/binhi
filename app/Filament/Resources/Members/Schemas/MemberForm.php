@@ -4,7 +4,7 @@ namespace App\Filament\Resources\Members\Schemas;
 
 use App\Enums\OrganizationalPosition;
 use App\Enums\Sex;
-use App\Enums\YearSection;
+use App\Enums\Year;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
@@ -46,10 +46,12 @@ class MemberForm
                                 ->unique(ignoreRecord: true),
                             TextInput::make('course')
                                 ->required(),
-                            Select::make('year_section')
-                                ->label('Year / Section')
+                            Select::make('year')
+                                ->label('Year')
                                 ->required()
-                                ->options(YearSection::class),
+                                ->options(Year::class),
+                            TextInput::make('section')
+                                ->label('Section'),
                             Select::make('organizational_position')
                                 ->label('Organizational Position')
                                 ->required()

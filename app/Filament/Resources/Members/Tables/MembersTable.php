@@ -2,12 +2,16 @@
 
 namespace App\Filament\Resources\Members\Tables;
 
+use App\Enums\OrganizationalPosition;
+use App\Enums\Year;
+use App\Models\Member;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
 class MembersTable
@@ -36,10 +40,13 @@ class MembersTable
                     ->searchable()
                     ->sortable()
                     ->toggleable(),
-                TextColumn::make('year_section')
-                    ->badge()
-                    ->label('Year / Section')
+                TextColumn::make('year')
+                    ->label('Year')
                     ->sortable(),
+                TextColumn::make('section')
+                    ->label('Section')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('organizational_position')
                     ->badge()
                     ->label('Position')
@@ -52,7 +59,15 @@ class MembersTable
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                SelectFilter::make('course')
+                    ->options(
+                        Member::distinct()->pluck('course', 'course')->toArray()
+                    ),
+                SelectFilter::make('year')
+                    ->options(Year::class),
+                SelectFilter::make('organizational_position')
+                    ->label('Position')
+                    ->options(OrganizationalPosition::class),
             ])
             ->recordActions([
                 ViewAction::make(),

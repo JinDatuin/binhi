@@ -23,7 +23,5 @@ class DatabaseSeeder extends Seeder
         );
 
         $user->assignRole('admin');
-
-        $this->call(MemberProfileSeeder::class);
     }
 }

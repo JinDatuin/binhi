@@ -10,7 +10,6 @@ return new class extends Migration
     {
         Schema::create('members', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->string('firstname');
             $table->string('lastname');
             $table->string('middle_initial', 5)->nullable();
@@ -20,7 +19,7 @@ return new class extends Migration
             $table->string('address_brgy');
             $table->string('address_municipal');
             $table->string('address_province');
-            $table->string('email_address');
+            $table->string('email_address')->constrained()->cascadeOnDelete();
             $table->string('contact_number');
             $table->date('birthday');
             $table->string('sex');

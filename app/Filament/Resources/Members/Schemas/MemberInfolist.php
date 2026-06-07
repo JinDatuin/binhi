@@ -40,8 +40,9 @@ class MemberInfolist
 
                         TextEntry::make('course'),
 
-                        TextEntry::make('year_section')
-                            ->label('Year / Section'),
+                        TextEntry::make('year'),
+
+                        TextEntry::make('section'),
 
                         TextEntry::make('organizational_position')
                             ->badge(),
