@@ -3,36 +3,56 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\PermissionRegistrar;
 
 class RoleSeeder extends Seeder
 {
-    public function run(): void
-    {
-        $permissions = [
-            'view dashboard',
-            'manage users',
-            'manage reports',
-            'manage settings',
-            'manage members',
-        ];
+public function run(): void
+{
+    app(PermissionRegistrar::class)->forgetCachedPermissions();
 
-        foreach ($permissions as $name) {
-            Permission::findOrCreate($name);
+    $roles = config('member.permissions');
+
+    $allPermissions = [];
+
+    // 1. CREATE ALL PERMISSIONS FIRST
+    foreach ($roles as $roleName => $resources) {
+        if ($resources === ['*']) {
+            continue;
         }
 
-        // Flush Spatie permission cache
-        app()->make(PermissionRegistrar::class)->forgetCachedPermissions();
+        foreach ($resources as $resource => $actions) {
+            foreach ($actions as $action) {
+                $permission = "{$resource}.{$action}";
 
-        $admin = Role::findOrCreate('admin');
-        $admin->syncPermissions($permissions);
+                Permission::findOrCreate($permission, 'web');
 
-        $secretary = Role::findOrCreate('secretary');
-        $secretary->syncPermissions(['view dashboard', 'manage reports', 'manage members']);
-
-        $member = Role::findOrCreate('member');
-        $member->syncPermissions(['view dashboard']);
+                $allPermissions[] = $permission;
+            }
+        }
     }
+
+    // 2. CREATE ROLES + ASSIGN PERMISSIONS
+    foreach ($roles as $roleName => $resources) {
+        $role = Role::findOrCreate($roleName, 'web');
+
+        // Admin gets everything
+        if ($resources === ['*']) {
+            $role->syncPermissions(Permission::all());
+            continue;
+        }
+
+        $permissions = [];
+
+        foreach ($resources as $resource => $actions) {
+            foreach ($actions as $action) {
+                $permissions[] = "{$resource}.{$action}";
+            }
+        }
+
+        $role->syncPermissions($permissions);
+    }
+}
 }
