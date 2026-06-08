@@ -56,4 +56,11 @@ class Member extends Model
     {
         return $this->belongsToMany(Attendance::class);
     }
+
+    public function achievements(): BelongsToMany
+    {
+        return $this->belongsToMany(Achievement::class)
+            ->using(Participant::class)
+            ->withTimestamps();
+    }
 }

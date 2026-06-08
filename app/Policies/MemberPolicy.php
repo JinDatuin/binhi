@@ -9,26 +9,26 @@ class MemberPolicy
 {
     public function viewAny(User $user): bool
     {
-        return $user->hasPermissionTo('manage members');
+        return $user->can('Member.viewAny');
     }
 
     public function view(User $user, Member $member): bool
     {
-        return $user->hasPermissionTo('manage members');
+        return $user->can('Member.view');
     }
 
     public function create(User $user): bool
     {
-        return $user->hasPermissionTo('manage members') && $user->hasRole('admin');
+        return $user->can('Member.create');
     }
 
     public function update(User $user, Member $member): bool
     {
-        return $user->hasPermissionTo('manage members') && $user->hasRole('admin');
+        return $user->can('Member.update');
     }
 
     public function delete(User $user, Member $member): bool
     {
-        return $user->hasPermissionTo('manage members') && $user->hasRole('admin');
+        return $user->can('Member.delete');
     }
 }
