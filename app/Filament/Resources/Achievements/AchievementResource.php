@@ -6,7 +6,6 @@ use App\Filament\Resources\Achievements\Pages\CreateAchievement;
 use App\Filament\Resources\Achievements\Pages\EditAchievement;
 use App\Filament\Resources\Achievements\Pages\ListAchievements;
 use App\Filament\Resources\Achievements\Pages\ViewAchievement;
-use App\Filament\Resources\Achievements\RelationManagers\MembersRelationManager;
 use App\Filament\Resources\Achievements\Schemas\AchievementForm;
 use App\Filament\Resources\Achievements\Schemas\AchievementInfolist;
 use App\Filament\Resources\Achievements\Tables\AchievementsTable;

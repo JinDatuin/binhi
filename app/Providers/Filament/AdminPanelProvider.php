@@ -2,6 +2,10 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Widgets\AchievementRanking;
+use App\Filament\Widgets\AttendanceRanking;
+use App\Filament\Widgets\MemberStats;
+use Blade;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -10,8 +14,7 @@ use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
-use Filament\Widgets\AccountWidget;
-use Filament\Widgets\FilamentInfoWidget;
+use Filament\View\PanelsRenderHook;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\PreventRequestForgery;
@@ -37,8 +40,9 @@ class AdminPanelProvider extends PanelProvider
                 Dashboard::class,
             ])
             ->widgets([
-                AccountWidget::class,
-                FilamentInfoWidget::class,
+                MemberStats::class,
+                AttendanceRanking::class,
+                AchievementRanking::class,
             ])
             ->middleware([
                 EncryptCookies::class,
@@ -54,6 +58,28 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ])
-            ->brandName('Binhi Connect');
+            ->brandName('')
+            ->brandLogo(asset('images/logo.png'))
+            ->brandLogoHeight('3rem')
+            ->renderHook(
+                PanelsRenderHook::BODY_START,
+                fn (): string => Blade::render('
+                    <style>
+                        .fi-simple-layout {
+                            background:
+                                linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+                                url("/images/login-bg.jpg");
+                            background-size: cover;
+                            background-position: center;
+                        }
+                        .fi-simple-main {
+                            background: rgba(255, 255, 255, 0.08) !important;
+                            backdrop-filter: blur(10px);
+                            border: 1px solid rgba(255,255,255,0.2);
+                            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+                        }
+                    </style>
+                ')
+            );
     }
 }

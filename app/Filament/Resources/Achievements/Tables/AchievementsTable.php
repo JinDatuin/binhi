@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources\Achievements\Tables;
 
-use App\Models\Achievement;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;

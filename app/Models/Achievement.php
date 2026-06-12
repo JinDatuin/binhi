@@ -26,8 +26,6 @@ class Achievement extends Model
 
     public function members(): BelongsToMany
     {
-        return $this->belongsToMany(Member::class)
-            ->using(Participant::class)
-            ->withTimestamps();
+        return $this->belongsToMany(Member::class);
     }
 }

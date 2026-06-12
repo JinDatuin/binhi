@@ -4,7 +4,6 @@ namespace App\Policies;
 
 use App\Models\Attendance;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class AttendancePolicy
 {
@@ -13,7 +12,7 @@ class AttendancePolicy
      */
     public function viewAny(User $user): bool
     {
-                return $user->can('Attendance.viewAny');
+        return $user->can('Attendance.viewAny');
 
     }
 

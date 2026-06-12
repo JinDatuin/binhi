@@ -59,8 +59,14 @@ class Member extends Model
 
     public function achievements(): BelongsToMany
     {
-        return $this->belongsToMany(Achievement::class)
-            ->using(Participant::class)
-            ->withTimestamps();
+        return $this->belongsToMany(Achievement::class);
+    }
+
+    public function getAchievementPointsAttribute(): float
+    {
+        return $this->achievements->sum(
+            fn ($achievement) => $achievement->achievementLevel->points
+                * $achievement->achievementPlacement->multiplier
+        );
     }
 }

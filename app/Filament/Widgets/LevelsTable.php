@@ -26,7 +26,7 @@ class LevelsTable extends TableWidget
             ])
             ->recordActions([
                 EditAction::make()
-                ->visible(auth()->user()->can('Widget.edit'))
+                    ->visible(auth()->user()->can('Widget.edit'))
                     ->form([
                         TextInput::make('level')->required(),
                         TextInput::make('points')->required()->numeric(),
@@ -34,7 +34,7 @@ class LevelsTable extends TableWidget
             ])
             ->toolbarActions([
                 CreateAction::make()
-                ->visible(auth()->user()->can('Widget.create'))
+                    ->visible(auth()->user()->can('Widget.create'))
                     ->form([
                         TextInput::make('level')->required(),
                         TextInput::make('points')->required()->numeric(),

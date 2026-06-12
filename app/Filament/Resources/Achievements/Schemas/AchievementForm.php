@@ -27,7 +27,6 @@ class AchievementForm
                     ->label('Participants')
                     ->relationship('members', 'lastname')
                     ->getOptionLabelFromRecordUsing(fn (Member $record) => "{$record->lastname}, {$record->firstname} {$record->middle_initial}")
-
                     ->multiple()
                     ->preload(),
             ]);
