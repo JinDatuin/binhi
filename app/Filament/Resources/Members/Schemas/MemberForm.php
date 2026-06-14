@@ -13,6 +13,9 @@ use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Wizard;
 use Filament\Schemas\Components\Wizard\Step;
 use Filament\Schemas\Schema;
+use Schoolees\Psgc\Models\Barangay;
+use Schoolees\Psgc\Models\City;
+use Schoolees\Psgc\Models\Province;
 
 class MemberForm
 {
@@ -77,16 +80,50 @@ class MemberForm
                         ]),
                     Step::make('Contact & Guardian')
                         ->schema([
-                            TextInput::make('address_brgy')
-                                ->label('Barangay'),
-                            TextInput::make('address_municipal')
-                                ->label('Municipal'),
-                            TextInput::make('address_province')
-                                ->label('Province'),
+                            Select::make('address_province')
+                                ->label('Province')
+                                ->options(
+                                    Province::query()
+                                        ->orderBy('name')
+                                        ->pluck('name', 'code')
+                                )
+                                ->default('105500000')
+                                ->searchable()
+                                ->live()
+                                ->afterStateUpdated(fn ($set) => [
+                                    $set('address_municipal', null),
+                                    $set('address_brgy', null),
+                                ])
+                                ->required(),
+
+                            Select::make('address_municipal')
+                                ->label('Municipality / City')
+                                ->options(fn ($get) => City::query()
+                                    ->where('province_code', $get('address_province'))
+                                    ->orderBy('name')
+                                    ->pluck('name', 'code')
+                                )
+                                ->searchable()
+                                ->live()
+                                ->afterStateUpdated(fn ($set) => $set('address_brgy', null))
+                                ->required(),
+
+                            Select::make('address_brgy')
+                                ->label('Barangay')
+                                ->options(fn ($get) => Barangay::query()
+                                    ->where('city_code', $get('address_municipal'))
+                                    ->orderBy('name')
+                                    ->pluck('name', 'code')
+                                )
+                                ->searchable()
+                                ->required(),
+
                             TextInput::make('contact_number')
                                 ->label('Contact Number'),
+
                             TextInput::make('guardian_names')
                                 ->label("Parent's / Guardian's Names"),
+
                             TextInput::make('guardian_contact_numbers')
                                 ->label('Guardian Contact Numbers'),
                         ])

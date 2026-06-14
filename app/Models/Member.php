@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Schoolees\Psgc\Models\Barangay;
+use Schoolees\Psgc\Models\City;
+use Schoolees\Psgc\Models\Province;
 
 class Member extends Model
 {
@@ -68,5 +71,20 @@ class Member extends Model
             fn ($achievement) => $achievement->achievementLevel->points
                 * $achievement->achievementPlacement->multiplier
         );
+    }
+
+    public function getProvinceNameAttribute(): ?string
+    {
+        return Province::find($this->address_province)?->name;
+    }
+
+    public function getMunicipalityNameAttribute(): ?string
+    {
+        return City::find($this->address_municipal)?->name;
+    }
+
+    public function getBarangayNameAttribute(): ?string
+    {
+        return Barangay::find($this->address_brgy)?->name;
     }
 }
