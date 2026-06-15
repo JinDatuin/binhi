@@ -74,7 +74,7 @@ return [
     |
     */
     'order_by' => 'name',
-    'sort_by'  => 'asc',
+    'sort_by' => 'asc',
 
     /*
     |--------------------------------------------------------------------------
@@ -86,9 +86,9 @@ return [
     |
     */
     'tables' => [
-        'regions'   => 'regions',
+        'regions' => 'regions',
         'provinces' => 'provinces',
-        'cities'    => 'cities',
+        'cities' => 'cities',
         'barangays' => 'barangays',
     ],
 

@@ -47,8 +47,7 @@ class PSGCSeeder extends Seeder
         array $keys,
         array $updates,
         int $chunkSize = 3000
-    ): void
-    {
+    ): void {
         $rows = $this->readJsonArray($path);
 
         if ($table === config('psgc.tables.cities', 'cities')) {
@@ -82,7 +81,7 @@ class PSGCSeeder extends Seeder
                 $r['province_code'] = null;
             }
 
-            if (isset($r['city_class']) && in_array($r['city_class'], ['HUC','ICC'], true)) {
+            if (isset($r['city_class']) && in_array($r['city_class'], ['HUC', 'ICC'], true)) {
                 $r['province_code'] = null;
             }
         }
@@ -94,20 +93,22 @@ class PSGCSeeder extends Seeder
         $relativePath = ltrim($path, '/'); // e.g. "psgc/regions.json"
 
         $resourceBasePath = rtrim((string) config('psgc.resources_path', base_path('resources/psgc')), '/');
-        $resourcePath = $resourceBasePath . '/' . basename($relativePath);
+        $resourcePath = $resourceBasePath.'/'.basename($relativePath);
         if (file_exists($resourcePath)) {
             $data = json_decode(file_get_contents($resourcePath), true);
             if (json_last_error() !== JSON_ERROR_NONE) {
-                throw new RuntimeException("Invalid JSON in {$resourcePath}: " . json_last_error_msg());
+                throw new RuntimeException("Invalid JSON in {$resourcePath}: ".json_last_error_msg());
             }
+
             return $data;
         }
 
         if (Storage::disk('local')->exists($relativePath)) {
             $data = json_decode(Storage::disk('local')->get($relativePath), true);
             if (json_last_error() !== JSON_ERROR_NONE) {
-                throw new RuntimeException("Invalid JSON in storage/app/{$relativePath}: " . json_last_error_msg());
+                throw new RuntimeException("Invalid JSON in storage/app/{$relativePath}: ".json_last_error_msg());
             }
+
             return $data;
         }
 

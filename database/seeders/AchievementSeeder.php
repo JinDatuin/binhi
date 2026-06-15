@@ -28,10 +28,10 @@ class AchievementSeeder extends Seeder
         }
 
         $placements = [
-            ['placement' => '1st Place',          'multiplier' => 3],
-            ['placement' => '2nd Place',          'multiplier' => 2],
-            ['placement' => '3rd Place',          'multiplier' => 1.5],
-            ['placement' => 'Others',       'multiplier' => 1],
+            ['placement' => '1st Place', 'multiplier' => 3],
+            ['placement' => '2nd Place', 'multiplier' => 2],
+            ['placement' => '3rd Place', 'multiplier' => 1.5],
+            ['placement' => 'Others', 'multiplier' => 1],
             ['placement' => 'Participation', 'multiplier' => 0.50],
         ];
 

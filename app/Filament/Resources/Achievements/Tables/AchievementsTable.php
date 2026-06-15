@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources\Achievements\Tables;
 
+use App\Models\Achievement;
+use App\Models\Member;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -26,9 +28,14 @@ class AchievementsTable
                     ->label('Placement')
                     ->sortable(),
                 TextColumn::make('members_count')
+                    ->visible(auth()->user()->can('Achievement.viewParticipants'))
                     ->label('Participants')
-                    ->counts('members')
-                    ->sortable(),
+                    ->getStateUsing(function (Achievement $record): array {
+                        return $record->members->map(fn (Member $member) => "{$member->lastname}, {$member->firstname}")->toArray();
+                    })
+                    ->badge()
+                    ->limitList(3)
+                    ->expandableLimitedList(),
             ])
             ->filters([
                 SelectFilter::make('achievement_level_id')

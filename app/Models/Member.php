@@ -20,6 +20,7 @@ class Member extends Model
     protected $table = 'members';
 
     protected $fillable = [
+        'user_id',
         'firstname',
         'lastname',
         'middle_initial',

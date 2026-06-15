@@ -14,6 +14,11 @@ class AttendanceRanking extends TableWidget
 
     protected int|string|array $columnSpan = 1;
 
+    public static function canView(): bool
+    {
+        return auth()->user()?->can('Dashboard.viewWidget');
+    }
+
     public function getTableRecords(): Collection
     {
         return Member::query()

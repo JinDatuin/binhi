@@ -28,6 +28,7 @@ class AttendancesTable
                     ->sortable()
                     ->toggleable(),
                 TextColumn::make('attendees')
+                    ->visible(auth()->user()->can('Attendance.viewAttendees'))
                     ->label('Attendees')
                     ->getStateUsing(function (Attendance $record): array {
                         return $record->members->map(fn (Member $member) => "{$member->lastname}, {$member->firstname}")->toArray();

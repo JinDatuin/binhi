@@ -8,6 +8,11 @@ use Filament\Widgets\StatsOverviewWidget\Stat;
 
 class MemberStats extends BaseWidget
 {
+    public static function canView(): bool
+    {
+        return auth()->user()?->can('Dashboard.viewWidget');
+    }
+
     protected function getStats(): array
     {
         $total = Member::count();

@@ -13,6 +13,14 @@ class Attendance extends Model
         'venue',
     ];
 
+    /**
+     * The "booted" method of the model.
+     */
+    protected static function booted(): void
+    {
+        static::addGlobalScope(new Scopes\RestrictToMemberScope);
+    }
+
     protected function casts(): array
     {
         return [
