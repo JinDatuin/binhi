@@ -6,6 +6,7 @@ use App\Filament\Pages\Dashboard;
 use App\Filament\Widgets\AchievementRanking;
 use App\Filament\Widgets\AttendanceRanking;
 use App\Filament\Widgets\MemberStats;
+use App\Filament\Widgets\PersonalStats;
 use Blade;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
@@ -43,6 +44,7 @@ class AdminPanelProvider extends PanelProvider
                 MemberStats::class,
                 AttendanceRanking::class,
                 AchievementRanking::class,
+                PersonalStats::class,
             ])
             ->middleware([
                 EncryptCookies::class,
