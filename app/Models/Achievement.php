@@ -14,6 +14,14 @@ class Achievement extends Model
         'achievement_placement_id',
     ];
 
+    /**
+     * The "booted" method of the model.
+     */
+    protected static function booted(): void
+    {
+        static::addGlobalScope(new Scopes\RestrictToMemberScope);
+    }
+
     public function achievementLevel(): BelongsTo
     {
         return $this->belongsTo(AchievementLevel::class);
@@ -26,8 +34,6 @@ class Achievement extends Model
 
     public function members(): BelongsToMany
     {
-        return $this->belongsToMany(Member::class)
-            ->using(Participant::class)
-            ->withTimestamps();
+        return $this->belongsToMany(Member::class);
     }
 }

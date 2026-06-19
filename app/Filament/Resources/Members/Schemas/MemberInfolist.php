@@ -47,11 +47,13 @@ class MemberInfolist
                     ->schema([
                         TextEntry::make('email_address'),
                         TextEntry::make('contact_number'),
-                        TextEntry::make('address_brgy')
+                        TextEntry::make('barangay_name')
                             ->label('Barangay'),
-                        TextEntry::make('address_municipal')
-                            ->label('Municipal'),
-                        TextEntry::make('address_province')
+
+                        TextEntry::make('municipality_name')
+                            ->label('Municipality'),
+
+                        TextEntry::make('province_name')
                             ->label('Province'),
                     ])
                     ->columns(2),

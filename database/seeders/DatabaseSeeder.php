@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(RoleSeeder::class);
         $this->call(AchievementSeeder::class);
+        $this->call(PSGCSeeder::class);
 
         $user = User::firstOrCreate(
             ['email' => 'test@example.com'],

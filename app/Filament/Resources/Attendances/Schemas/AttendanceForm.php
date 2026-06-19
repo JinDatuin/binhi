@@ -6,6 +6,7 @@ use App\Models\Member;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Schema;
 
 class AttendanceForm
@@ -14,14 +15,17 @@ class AttendanceForm
     {
         return $schema
             ->components([
-                DatePicker::make('date')
-                    ->required(),
-                TextInput::make('event_name')
-                    ->required()
-                    ->maxLength(255),
-                TextInput::make('venue')
-                    ->required()
-                    ->maxLength(255),
+                Grid::make(3)
+                    ->schema([
+                        DatePicker::make('date')
+                            ->required(),
+                        TextInput::make('event_name')
+                            ->required()
+                            ->maxLength(255),
+                        TextInput::make('venue')
+                            ->required()
+                            ->maxLength(255),
+                    ])->columnSpanFull(),
                 Select::make('members')
                     ->multiple()
                     ->relationship('members', 'lastname')
