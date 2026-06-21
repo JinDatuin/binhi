@@ -29,6 +29,6 @@ class MemberPolicy
 
     public function delete(User $user, Member $member): bool
     {
-        return $user->can('Member.delete');
+        return $user->hasRole('admin');
     }
 }

@@ -45,7 +45,7 @@ class AttendancePolicy
      */
     public function delete(User $user, Attendance $attendance): bool
     {
-        return $user->can('Attendance.delete');
+        return $user->hasRole('admin');
     }
 
     /**
@@ -53,7 +53,7 @@ class AttendancePolicy
      */
     public function restore(User $user, Attendance $attendance): bool
     {
-        return $user->can('Attendance.restore');
+        return $user->hasRole('admin');
     }
 
     /**
@@ -61,6 +61,6 @@ class AttendancePolicy
      */
     public function forceDelete(User $user, Attendance $attendance): bool
     {
-        return $user->can('Attendance.forceDelete');
+        return $user->hasRole('admin');
     }
 }

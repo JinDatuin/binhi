@@ -26,7 +26,7 @@ class PlacementsTable extends TableWidget
             ])
             ->recordActions([
                 EditAction::make()
-                    ->visible(auth()->user()->can('Widget.edit'))
+                    ->visible(auth()->user()->can('Widget.update'))
 
                     ->form([
                         TextInput::make('placement')->required(),

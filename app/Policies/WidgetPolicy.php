@@ -28,6 +28,6 @@ class WidgetPolicy
 
     public function delete(User $user): bool
     {
-        return $user->can('widget.delete');
+        return $user->hasRole('admin');
     }
 }

@@ -44,7 +44,7 @@ class AchievementPolicy
      */
     public function delete(User $user, Achievement $achievement): bool
     {
-        return $user->can('Achievement.delete');
+        return $user->hasRole('admin');
     }
 
     /**
@@ -52,7 +52,7 @@ class AchievementPolicy
      */
     public function restore(User $user, Achievement $achievement): bool
     {
-        return $user->can('Achievement.restore');
+        return $user->hasRole('admin');
     }
 
     /**
@@ -60,6 +60,6 @@ class AchievementPolicy
      */
     public function forceDelete(User $user, Achievement $achievement): bool
     {
-        return $user->can('Achievement.forceDelete');
+        return $user->hasRole('admin');
     }
 }

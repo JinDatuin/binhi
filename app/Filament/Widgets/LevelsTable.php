@@ -26,7 +26,7 @@ class LevelsTable extends TableWidget
             ])
             ->recordActions([
                 EditAction::make()
-                    ->visible(auth()->user()->can('Widget.edit'))
+                    ->visible(auth()->user()->can('Widget.update'))
                     ->form([
                         TextInput::make('level')->required(),
                         TextInput::make('points')->required()->numeric(),
