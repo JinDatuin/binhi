@@ -12,6 +12,7 @@ class PersonalStats extends BaseWidget
     {
         return auth()->user()?->hasRole('member');
     }
+
     protected function getStats(): array
     {
         $totalAttendance = Attendance::count();
