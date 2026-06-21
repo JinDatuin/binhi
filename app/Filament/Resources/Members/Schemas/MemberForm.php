@@ -48,7 +48,7 @@ class MemberForm
                                     FileUpload::make('photo')
                                         ->label('2x2 Photo')
                                         ->image()
-                                        ->maxSize(1024)
+                                        ->maxSize(2024)
                                         ->directory('member-photos')
                                         ->visibility('public'),
                                 ]),

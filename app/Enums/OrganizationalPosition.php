@@ -11,5 +11,6 @@ enum OrganizationalPosition: string
     case Actress = 'Actress';
     case Artist = 'Artist';
     case Instrumentalist = 'Instrumentalist';
+    case Adviser = 'Adviser';
     case Others = 'Others';
 }

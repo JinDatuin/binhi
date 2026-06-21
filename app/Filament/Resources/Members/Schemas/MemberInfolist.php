@@ -17,7 +17,6 @@ class MemberInfolist
                     ->schema([
                         ImageEntry::make('photo')
                             ->circular()
-                            ->visibility('public')
                             ->hiddenLabel()
                             ->columnSpanFull()
                             ->alignCenter(),
