@@ -15,7 +15,7 @@ return [
         ],
 
         'member' => [
-            'Member' => ['viewAny', 'view'],
+            'Member' => ['viewAny'],
             'Achievement' => ['viewAny', 'view'],
             'Attendance' => ['viewAny', 'view'],
             'Widget' => ['viewAny', 'view'],
