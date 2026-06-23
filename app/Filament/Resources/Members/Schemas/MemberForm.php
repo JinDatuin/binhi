@@ -19,8 +19,10 @@ use Schoolees\Psgc\Models\Province;
 
 class MemberForm
 {
-    public static function configure(Schema $schema): Schema
-    {
+    public static function configure(
+        Schema $schema,
+        bool $disableFields = false,
+    ): Schema {
         return $schema
             ->components([
                 Wizard::make([
@@ -29,9 +31,11 @@ class MemberForm
                             Grid::make(3)
                                 ->schema([
                                     TextInput::make('lastname')->required()
-                                        ->label('Last Name'),
+                                        ->label('Last Name')
+                                        ->disabled($disableFields),
                                     TextInput::make('firstname')->required()
-                                        ->label('First Name'),
+                                        ->label('First Name')
+                                        ->disabled($disableFields),
                                     TextInput::make('middle_initial')
                                         ->label('Middle Initial'),
                                 ]),
@@ -39,6 +43,7 @@ class MemberForm
                                 ->schema([
                                     TextInput::make('email_address')
                                         ->label('Email Address')
+                                        ->disabled($disableFields)
                                         ->required()
                                         ->email(),
                                     Select::make('sex')
@@ -59,6 +64,7 @@ class MemberForm
                                 ->schema([
                                     TextInput::make('student_number')
                                         ->required()
+                                        ->disabled($disableFields)
                                         ->unique(ignoreRecord: true),
                                     Select::make('organizational_position')
                                         ->label('Organizational Position')

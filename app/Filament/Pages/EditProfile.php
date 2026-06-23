@@ -51,7 +51,10 @@ class EditProfile extends Page
 
     public function form(Schema $schema): Schema
     {
-        return MemberForm::configure($schema);
+        return MemberForm::configure(
+            $schema,
+            disableFields: true
+        );
     }
 
     public function save(): void

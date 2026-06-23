@@ -4,10 +4,10 @@ use App\Models\Member;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return redirect('/admin');
+    return redirect('/connect');
 });
 
-Route::get('/admin/print/dashboard', function () {
+Route::get('/connect/print/dashboard', function () {
     $total = Member::count();
     $male = Member::where('sex', 'm')->count();
     $female = Member::where('sex', 'f')->count();
