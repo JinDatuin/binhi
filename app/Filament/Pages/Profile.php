@@ -30,7 +30,7 @@ class Profile extends Page
 
     public static function shouldRegisterNavigation(): bool
     {
-        return Auth::user()->hasRole('member');
+        return false;
     }
 
     public static function canAccess(): bool

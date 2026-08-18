@@ -78,6 +78,57 @@
             border-top: 1px solid #000;
             font-size: 10px;
         }
+        .controls {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            width: 260px;
+            background: #fff;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+            z-index: 1000;
+            font-family: system-ui, -apple-system, sans-serif;
+            font-size: 13px;
+        }
+        .controls-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 14px;
+            cursor: pointer;
+            background: #f5f5f5;
+            border-radius: 6px 6px 0 0;
+            font-weight: 600;
+            user-select: none;
+        }
+        .controls .toggle-icon {
+            transition: transform 0.2s;
+            font-size: 10px;
+        }
+        .controls.open .toggle-icon {
+            transform: rotate(180deg);
+        }
+        .controls-body {
+            display: none;
+            padding: 8px 14px 14px;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .controls.open .controls-body {
+            display: flex;
+        }
+        .controls-body label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            padding: 3px 0;
+        }
+        .controls-body input[type="checkbox"] {
+            margin: 0;
+            accent-color: #000;
+        }
         @media print {
             body { padding: 0; }
             .no-print { display: none; }
@@ -86,12 +137,27 @@
 </head>
 <body>
 
+    <div class="no-print controls">
+        <div class="controls-header" onclick="this.parentElement.classList.toggle('open')">
+            <span>Sections to Include</span>
+            <span class="toggle-icon">&#9660;</span>
+        </div>
+        <div class="controls-body">
+            <label><input type="checkbox" class="section-toggle" data-section="overview" checked> Membership Overview</label>
+            <label><input type="checkbox" class="section-toggle" data-section="inside" checked> Inside San Carlos City</label>
+            <label><input type="checkbox" class="section-toggle" data-section="outside" checked> Outside San Carlos City</label>
+            <label><input type="checkbox" class="section-toggle" data-section="complete-list" checked> Complete List of Members</label>
+            <label><input type="checkbox" class="section-toggle" data-section="attendance-ranking" checked> Attendance Ranking</label>
+            <label><input type="checkbox" class="section-toggle" data-section="achievement-ranking" checked> Achievement Ranking</label>
+        </div>
+    </div>
+
     <div class="header">
         <h1>Binhi Members Report</h1>
         <p>Generated on: {{ now()->format('F j, Y \a\t g:i A') }}</p>
     </div>
 
-    <div class="section">
+    <div class="section" data-section="overview">
         <h2>Membership Overview</h2>
         <div class="stats-grid">
             <div class="stat-card">
@@ -109,7 +175,7 @@
         </div>
     </div>
 
-    <div class="section">
+    <div class="section" data-section="inside">
         <h2>Members Residing Inside San Carlos City</h2>
         <table>
             <thead>
@@ -135,7 +201,7 @@
         </table>
     </div>
 
-    <div class="section">
+    <div class="section" data-section="outside">
         <h2>Members Residing Outside San Carlos City</h2>
         <table>
             <thead>
@@ -161,7 +227,7 @@
         </table>
     </div>
 
-    <div class="section">
+    <div class="section" data-section="complete-list">
         <h2>Complete List of Binhi Members</h2>
         <table>
             <thead>
@@ -191,10 +257,10 @@
         </table>
     </div>
 
-    <div class="section">
-        <h2>Rankings</h2>
+    <div class="section rankings-section" data-section="rankings">
+        <h2 class="rankings-heading">Rankings</h2>
         <div class="rankings-grid">
-            <div>
+            <div data-section="attendance-ranking">
                 <h3>Attendance Ranking</h3>
                 <table>
                     <thead>
@@ -217,7 +283,7 @@
                     </tbody>
                 </table>
             </div>
-            <div>
+            <div data-section="achievement-ranking">
                 <h3>Achievement Ranking</h3>
                 <table>
                     <thead>
@@ -251,6 +317,65 @@
         <button onclick="window.print()" style="padding:10px 30px;font-size:14px;cursor:pointer;">Print</button>
         <button onclick="window.close()" style="padding:10px 30px;font-size:14px;cursor:pointer;">Close</button>
     </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var toggles = document.querySelectorAll('.section-toggle');
+    var rankingsSection = document.querySelector('.rankings-section');
+    var rankingsHeading = document.querySelector('.rankings-heading');
+
+    // Restore saved state
+    var saved = localStorage.getItem('printSectionToggles');
+    if (saved) {
+        try {
+            var parsed = JSON.parse(saved);
+            toggles.forEach(function (cb) {
+                var section = cb.getAttribute('data-section');
+                if (parsed[section] !== undefined) {
+                    cb.checked = parsed[section];
+                }
+            });
+        } catch (e) {}
+    }
+
+    function applyToggles() {
+        toggles.forEach(function (cb) {
+            var section = cb.getAttribute('data-section');
+            var els = document.querySelectorAll('[data-section="' + section + '"]');
+            els.forEach(function (el) {
+                el.style.display = cb.checked ? '' : 'none';
+            });
+        });
+
+        // Save state
+        var state = {};
+        toggles.forEach(function (cb) {
+            state[cb.getAttribute('data-section')] = cb.checked;
+        });
+        localStorage.setItem('printSectionToggles', JSON.stringify(state));
+
+        // Show rankings heading only if at least one ranking is visible
+        if (rankingsSection) {
+            var attVis = document.querySelector('[data-section="attendance-ranking"]').style.display !== 'none';
+            var achVis = document.querySelector('[data-section="achievement-ranking"]').style.display !== 'none';
+            if (!attVis && !achVis) {
+                rankingsSection.style.display = 'none';
+            } else {
+                rankingsSection.style.display = '';
+                if (rankingsHeading) {
+                    rankingsHeading.style.display = attVis && achVis ? '' : 'none';
+                }
+            }
+        }
+    }
+
+    toggles.forEach(function (cb) {
+        cb.addEventListener('change', applyToggles);
+    });
+
+    applyToggles();
+});
+</script>
 
 </body>
 </html>

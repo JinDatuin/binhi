@@ -2,12 +2,14 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Pages\ChangePassword;
 use App\Filament\Pages\Dashboard;
 use App\Filament\Widgets\AchievementRanking;
 use App\Filament\Widgets\AttendanceRanking;
 use App\Filament\Widgets\MemberStats;
 use App\Filament\Widgets\PersonalStats;
 use Blade;
+use Filament\Actions\Action;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -38,6 +40,7 @@ class AdminPanelProvider extends PanelProvider
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
             ->pages([
+                ChangePassword::class,
                 Dashboard::class,
             ])
             ->widgets([
@@ -82,6 +85,15 @@ class AdminPanelProvider extends PanelProvider
                         }
                     </style>
                 ')
-            );
+            )
+            ->userMenuItems([
+                Action::make('Profile')
+                    ->url('/connect/profile')
+                    ->icon('heroicon-o-user')
+                    ->visible(fn () => auth()->user()?->hasRole('member') ?? false),
+                Action::make('Change Password')
+                    ->url('/connect/password/change')
+                    ->icon('heroicon-o-lock-closed'),
+            ]);
     }
 }
