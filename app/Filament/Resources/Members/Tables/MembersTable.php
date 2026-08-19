@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Members\Tables;
 use App\Enums\OrganizationalPosition;
 use App\Enums\Year;
 use App\Models\Member;
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -13,6 +14,7 @@ use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Hash;
 
 class MembersTable
 {
@@ -34,7 +36,11 @@ class MembersTable
                         "{$record->lastname}, {$record->firstname} {$record->middle_initial}"
                     ))
                     ->searchable(['firstname', 'lastname'])
-                    ->sortable(),
+                    ->sortable(query: function ($query, string $direction) {
+                        $query->orderBy('lastname', $direction)
+                            ->orderBy('firstname', $direction)
+                            ->orderBy('middle_initial', $direction);
+                    }),
                 TextColumn::make('course')
                     ->searchable()
                     ->sortable(),
@@ -53,6 +59,7 @@ class MembersTable
                     ->label('Contact')
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->defaultSort('lastname')
             ->filters([
                 SelectFilter::make('course')
                     ->options(
@@ -67,6 +74,18 @@ class MembersTable
             ->recordActions([
                 ViewAction::make(),
                 EditAction::make(),
+
+                Action::make('resetPassword')
+                    ->label('Reset Password')
+                    ->icon('heroicon-o-key')
+                    ->color('danger')
+                    ->requiresConfirmation()
+                    ->action(function (Member $record) {
+                        $record->user->update([
+                            'password' => Hash::make('password'),
+                        ]);
+                    })
+                    ->successNotificationTitle('Password reset successfully'),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
